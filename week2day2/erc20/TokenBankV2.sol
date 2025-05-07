@@ -10,6 +10,7 @@ contract TokenBankV2 is TokenBank, BaseERC20CallBack {
 
     // 实现存款记录
     function tokensReceived(address account, uint256 amount, uint256 tokenId) external override returns (bytes4) {
+        require(msg.sender == address(baseErc20), "invoker must be BaseERC20");
         _save(account, amount);
         return BaseERC20CallBack.tokensReceived.selector;
     }
