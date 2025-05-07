@@ -17,7 +17,7 @@ contract NFTMarket is BaseERC20CallBack {
         _erc20 = BaseERC20(erc20Addr);
     }
 
-    // NFT的持有者上架NFT
+    // NFT的持有者上架NFT, 两种实现方式: 1.授权 2.转到该合约
     function list(uint256 tokenId, uint256 amount) public  {
         address owner = _nft.ownerOf(tokenId);
         require(owner == msg.sender, "not the nft holder");
@@ -42,7 +42,8 @@ contract NFTMarket is BaseERC20CallBack {
     }
 
     // 实现NFT购买功能
-    function tokensReceived(address account, uint256 amount, uint256 tokenId) external override returns(bytes4) {
+    function tokensReceived(address account, uint256 amount, bytes calldata data) external override returns(bytes4) {
+        uint256 tokenId = abi.decode(data, (uint256));
         uint256 price = pricesOfNFT[tokenId];
         require(price > 0, "nft not on list");
         require(amount >= price, "amount is not enougn");

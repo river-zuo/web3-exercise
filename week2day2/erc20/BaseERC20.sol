@@ -48,7 +48,7 @@ contract BaseERC20 {
         // 目标地址是合约地址
         if (_to.code.length > 0) {
             BaseERC20CallBack callback = BaseERC20CallBack(_to);
-            try callback.tokensReceived(msg.sender, _value, tokenId) returns (bytes4 res) {
+            try callback.tokensReceived(msg.sender, _value, bytes("")) returns (bytes4 res) {
                 return BaseERC20CallBack.tokensReceived.selector == res;
             } catch (bytes memory reason) {
                 if (reason.length == 0) {
