@@ -68,9 +68,24 @@ contract Bank is IBank {
             init_top3();
         } else if (addr_balance[msg.sender] > lowest) {
             // 替换最小值对应的地址
-            for (uint i = 0; i < top_3_balance_addr.length; i++) {
-                if (top_3_balance_addr[i] == lowest_addr) {
-                    top_3_balance_addr[i] = msg.sender;
+            // for (uint i = 0; i < top_3_balance_addr.length; i++) {
+            //     if (top_3_balance_addr[i] == lowest_addr) {
+            //         top_3_balance_addr[i] = msg.sender;
+            //     }
+            // }
+            top_3_balance_addr[2] = msg.sender;
+            // 排序
+            sortTop3();
+        }
+    }
+
+    function sortTop3() private {
+        for (uint i = 0; i < top_3_balance_addr.length; i++) {
+            for (uint j = i + 1; j < top_3_balance_addr.length; j++) {
+                if (addr_balance[top_3_balance_addr[i]] < addr_balance[top_3_balance_addr[j]]) {
+                    address temp = top_3_balance_addr[i];
+                    top_3_balance_addr[i] = top_3_balance_addr[j];
+                    top_3_balance_addr[j] = temp;
                 }
             }
         }
@@ -81,14 +96,15 @@ contract Bank is IBank {
     }
 
     function lowest_balance_in_top3() private need_more_than_zero returns(uint256, address) {
-        uint256 lowest = addr_balance[top_3_balance_addr[0]];
-        address lowest_addr = top_3_balance_addr[0];
-        for (uint i = 0; i < top_3_balance_addr.length; i++) {
-            if (lowest > addr_balance[top_3_balance_addr[i]]) {
-                lowest = addr_balance[top_3_balance_addr[i]];
-            }
-        }
-        return (lowest, lowest_addr);
+        // uint256 lowest = addr_balance[top_3_balance_addr[0]];
+        // address lowest_addr = top_3_balance_addr[0];
+        // for (uint i = 0; i < top_3_balance_addr.length; i++) {
+        //     if (lowest > addr_balance[top_3_balance_addr[i]]) {
+        //         lowest = addr_balance[top_3_balance_addr[i]];
+        //     }
+        // }
+        // return (lowest, lowest_addr);
+        return (addr_balance[top_3_balance_addr[2]], top_3_balance_addr[2]);
     }
 
     function init_top3() private {
@@ -98,6 +114,7 @@ contract Bank is IBank {
                 break ;
             }
         }
+        sortTop3();
     }
 
     // 向合约转账, remix中测试使用
