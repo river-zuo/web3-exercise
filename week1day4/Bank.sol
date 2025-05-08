@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0;
 
-import "week1day4/IBank.sol";
+import "./IBank.sol";
 
 contract Bank is IBank {
     // 记录每个合约地址的存款金额

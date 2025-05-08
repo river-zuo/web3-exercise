@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0;
 
-import "week1day4/Bank.sol";
+import "./Bank.sol";
 
 contract BigBank is Bank {
     
