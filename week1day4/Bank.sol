@@ -63,7 +63,7 @@ contract Bank is IBank {
         // 入账
         addr_balance[msg.sender] += msg.value;
         // 记录最高的三个地址
-        (uint256 lowest, address lowest_addr) = lowest_balance_in_top3();
+        (uint256 lowest, ) = lowest_balance_in_top3();
         if (lowest == 0 && !has_record) {
             init_top3();
         } else if (addr_balance[msg.sender] > lowest) {
